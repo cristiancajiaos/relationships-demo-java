@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -45,5 +46,16 @@ public class StoryController {
   public ResponseEntity<List<StoryDto>> getAllStories() {
     List<StoryDto> stories = storyService.getAllStories();
     return new ResponseEntity<>(stories, HttpStatus.OK);
+  }
+
+  @PutMapping(value = "")
+  public ResponseEntity<StoryDto> updateStory(@RequestBody StoryDto storyDto)
+      throws StoryNotFoundException {
+    try {
+      StoryDto updatedStory = storyService.updateStory(storyDto);
+      return new ResponseEntity<>(updatedStory, HttpStatus.OK);
+    } catch (StoryNotFoundException ex) {
+      throw ex;
+    }
   }
 }

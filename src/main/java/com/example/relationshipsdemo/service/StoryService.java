@@ -10,4 +10,6 @@ public interface StoryService {
   StoryDto getStoryById(Long id) throws StoryNotFoundException;
 
   List<StoryDto> getAllStories();
+
+  StoryDto updateStory(StoryDto storyDto) throws StoryNotFoundException;
 }

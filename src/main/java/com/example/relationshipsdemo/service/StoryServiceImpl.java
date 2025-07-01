@@ -38,4 +38,17 @@ public class StoryServiceImpl implements StoryService {
     List<Story> stories = storyRepository.findAll();
     return stories.stream().map((st) -> StoryMapper.mapToStoryDto(st)).collect(Collectors.toList());
   }
+
+  @Override
+  public StoryDto updateStory(StoryDto storyDto) throws StoryNotFoundException {
+    Long id = storyDto.getStoryId();
+    Optional<Story> foundStory = storyRepository.findById(id);
+    if (foundStory.isEmpty()) {
+      throw new StoryNotFoundException("Story with ID " + id + " not found");
+    }
+    Story returningStory = foundStory.get();
+    returningStory.setStoryName(storyDto.getStoryName());
+    returningStory.setBook(storyDto.getBook());
+    return StoryMapper.mapToStoryDto(returningStory);
+  }
 }
