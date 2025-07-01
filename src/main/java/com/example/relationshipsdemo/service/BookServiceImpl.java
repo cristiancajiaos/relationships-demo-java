@@ -4,7 +4,7 @@ import com.example.relationshipsdemo.dto.BookDto;
 import com.example.relationshipsdemo.entity.Book;
 import com.example.relationshipsdemo.exception.BookNotFoundException;
 import com.example.relationshipsdemo.mapper.BookMapper;
-import com.example.relationshipsdemo.repository.BookDepository;
+import com.example.relationshipsdemo.repository.BookRepository;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -15,18 +15,18 @@ import org.springframework.stereotype.Service;
 public class BookServiceImpl implements BookService {
 
   @Autowired
-  private BookDepository bookDepository;
+  private BookRepository bookRepository;
 
   @Override
   public BookDto createBook(BookDto bookDto) {
     Book book = BookMapper.mapToBook(bookDto);
-    Book createdBook = bookDepository.save(book);
+    Book createdBook = bookRepository.save(book);
     return BookMapper.mapToBookDto(createdBook);
   }
 
   @Override
   public BookDto getBookById(Long id) throws BookNotFoundException {
-    Optional<Book> foundBook = bookDepository.findById(id);
+    Optional<Book> foundBook = bookRepository.findById(id);
     if (foundBook.isEmpty()) {
       throw new BookNotFoundException("Book with id " + id + " not found");
     }
@@ -35,30 +35,30 @@ public class BookServiceImpl implements BookService {
 
   @Override
   public List<BookDto> getBooks() {
-    List<Book> books = bookDepository.findAll();
+    List<Book> books = bookRepository.findAll();
     return books.stream().map((bk) -> BookMapper.mapToBookDto(bk)).collect(Collectors.toList());
   }
 
   @Override
   public BookDto updateBook(BookDto bookDto) throws BookNotFoundException {
-    Optional<Book> foundBook = bookDepository.findById(bookDto.getBookId());
+    Optional<Book> foundBook = bookRepository.findById(bookDto.getBookId());
     if (foundBook.isEmpty()) {
       throw new BookNotFoundException("Book with id " + bookDto.getBookId() + " not found");
     }
     Book bookToUpdate = foundBook.get();
     bookToUpdate.setBookName(bookDto.getBookName());
-    Book updatedBook = bookDepository.save(bookToUpdate);
+    Book updatedBook = bookRepository.save(bookToUpdate);
     return BookMapper.mapToBookDto(updatedBook);
   }
 
   @Override
   public BookDto deleteBook(Long id) throws BookNotFoundException {
-    Optional<Book> foundBook = bookDepository.findById(id);
+    Optional<Book> foundBook = bookRepository.findById(id);
     if (foundBook.isEmpty()) {
       throw new BookNotFoundException("Book with ID " + id + " not found");
     }
     Book deletedBook = foundBook.get();
-    bookDepository.deleteById(id);
+    bookRepository.deleteById(id);
     return BookMapper.mapToBookDto(deletedBook);
   }
 }
