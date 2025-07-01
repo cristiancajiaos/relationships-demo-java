@@ -50,4 +50,15 @@ public class BookServiceImpl implements BookService {
     Book updatedBook = bookDepository.save(bookToUpdate);
     return BookMapper.mapToBookDto(updatedBook);
   }
+
+  @Override
+  public BookDto deleteBook(Long id) throws BookNotFoundException {
+    Optional<Book> foundBook = bookDepository.findById(id);
+    if (foundBook.isEmpty()) {
+      throw new BookNotFoundException("Book with ID " + id + " not found");
+    }
+    Book deletedBook = foundBook.get();
+    bookDepository.deleteById(id);
+    return BookMapper.mapToBookDto(deletedBook);
+  }
 }

@@ -1,6 +1,7 @@
 package com.example.relationshipsdemo.controller;
 
 import com.example.relationshipsdemo.dto.BookDto;
+import com.example.relationshipsdemo.entity.Book;
 import com.example.relationshipsdemo.exception.BookNotFoundException;
 import com.example.relationshipsdemo.service.BookService;
 import java.util.List;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -55,9 +57,17 @@ public class BookController {
     } catch (BookNotFoundException ex) {
       throw ex;
     }
-
   }
 
+  @DeleteMapping(value = "/delete/{id}")
+  public ResponseEntity<BookDto> deleteBook(@PathVariable("id") Long id) throws BookNotFoundException {
+    try {
+      BookDto foundBook = bookService.deleteBook(id);
+      return new ResponseEntity<>(foundBook, HttpStatus.OK);
+    } catch (BookNotFoundException ex) {
+      throw ex;
+    }
+  }
 
 
 }

@@ -14,4 +14,5 @@ public interface BookService {
 
   BookDto updateBook(BookDto bookDto) throws BookNotFoundException;
 
+  BookDto deleteBook(Long id) throws BookNotFoundException;
 }
