@@ -1,11 +1,14 @@
 package com.example.relationshipsdemo.controller;
 
 import com.example.relationshipsdemo.dto.BookDto;
+import com.example.relationshipsdemo.exception.BookNotFoundException;
 import com.example.relationshipsdemo.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +26,16 @@ public class BookController {
   public ResponseEntity<BookDto> createBook(@RequestBody BookDto bookDto) {
     BookDto createdBook = bookService.createBook(bookDto);
     return new ResponseEntity<>(createdBook, HttpStatus.CREATED);
+  }
+
+  @GetMapping(value = "/{id}")
+  public ResponseEntity<BookDto> getBookById(@PathVariable("id") Long id) throws BookNotFoundException {
+    try {
+      BookDto foundBook = bookService.getBookById(id);
+      return new ResponseEntity<>(foundBook, HttpStatus.OK);
+    } catch (BookNotFoundException ex) {
+      throw ex;
+    }
   }
 
 }
