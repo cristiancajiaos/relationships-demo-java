@@ -1,11 +1,15 @@
 package com.example.relationshipsdemo.controller;
 
 import com.example.relationshipsdemo.dto.StoryDto;
+import com.example.relationshipsdemo.exception.StoryNotFoundException;
 import com.example.relationshipsdemo.service.StoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.graphql.GraphQlProperties.Http;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +27,17 @@ public class StoryController {
   public ResponseEntity<StoryDto> createStory(@RequestBody StoryDto storyDto) {
     StoryDto createdStory = storyService.createStory(storyDto);
     return new ResponseEntity<>(createdStory, HttpStatus.OK);
+  }
+
+  @GetMapping(value = "/{id}")
+  public ResponseEntity<StoryDto> getStoryById(@PathVariable("id") Long id)
+      throws StoryNotFoundException {
+    try {
+      StoryDto foundStory = storyService.getStoryById(id);
+      return new ResponseEntity<>(foundStory, HttpStatus.OK);
+    } catch (StoryNotFoundException ex) {
+      throw ex;
+    }
   }
 
 
