@@ -3,6 +3,7 @@ package com.example.relationshipsdemo.controller;
 import com.example.relationshipsdemo.dto.StoryDto;
 import com.example.relationshipsdemo.exception.StoryNotFoundException;
 import com.example.relationshipsdemo.service.StoryService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.graphql.GraphQlProperties.Http;
 import org.springframework.http.HttpStatus;
@@ -40,6 +41,9 @@ public class StoryController {
     }
   }
 
-
-
+  @GetMapping(value = "")
+  public ResponseEntity<List<StoryDto>> getAllStories() {
+    List<StoryDto> stories = storyService.getAllStories();
+    return new ResponseEntity<>(stories, HttpStatus.OK);
+  }
 }
