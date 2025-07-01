@@ -19,7 +19,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 public class Story {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long storyId;
 
   @Column(name = "story_name")
