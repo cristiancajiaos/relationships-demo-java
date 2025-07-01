@@ -38,4 +38,16 @@ public class BookServiceImpl implements BookService {
     List<Book> books = bookDepository.findAll();
     return books.stream().map((bk) -> BookMapper.mapToBookDto(bk)).collect(Collectors.toList());
   }
+
+  @Override
+  public BookDto updateBook(BookDto bookDto) throws BookNotFoundException {
+    Optional<Book> foundBook = bookDepository.findById(bookDto.getBookId());
+    if (foundBook.isEmpty()) {
+      throw new BookNotFoundException("Book with id " + bookDto.getBookId() + " not found");
+    }
+    Book bookToUpdate = foundBook.get();
+    bookToUpdate.setBookName(bookDto.getBookName());
+    Book updatedBook = bookDepository.save(bookToUpdate);
+    return BookMapper.mapToBookDto(updatedBook);
+  }
 }

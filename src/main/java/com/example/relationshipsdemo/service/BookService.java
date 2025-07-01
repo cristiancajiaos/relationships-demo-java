@@ -12,4 +12,6 @@ public interface BookService {
 
   List<BookDto> getBooks();
 
+  BookDto updateBook(BookDto bookDto) throws BookNotFoundException;
+
 }
