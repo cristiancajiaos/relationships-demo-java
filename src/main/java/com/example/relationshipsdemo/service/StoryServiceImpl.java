@@ -46,9 +46,21 @@ public class StoryServiceImpl implements StoryService {
     if (foundStory.isEmpty()) {
       throw new StoryNotFoundException("Story with ID " + id + " not found");
     }
-    Story returningStory = foundStory.get();
-    returningStory.setStoryName(storyDto.getStoryName());
-    returningStory.setBook(storyDto.getBook());
-    return StoryMapper.mapToStoryDto(returningStory);
+    Story storyToUpdate = foundStory.get();
+    storyToUpdate.setStoryName(storyDto.getStoryName());
+    storyToUpdate.setBook(storyDto.getBook());
+    Story updatedStory = storyRepository.save(storyToUpdate);
+    return StoryMapper.mapToStoryDto(updatedStory);
+  }
+
+  @Override
+  public StoryDto deleteStory(Long id) throws StoryNotFoundException {
+    Optional<Story> foundStory = storyRepository.findById(id);
+    if (foundStory.isEmpty()) {
+      throw new StoryNotFoundException("Story with ID " + id + " not found");
+    }
+    Story foundStoryToBeDeleted = foundStory.get();
+    storyRepository.deleteById(id);
+    return StoryMapper.mapToStoryDto(foundStoryToBeDeleted);
   }
 }
