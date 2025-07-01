@@ -5,7 +5,9 @@ import com.example.relationshipsdemo.entity.Book;
 import com.example.relationshipsdemo.exception.BookNotFoundException;
 import com.example.relationshipsdemo.mapper.BookMapper;
 import com.example.relationshipsdemo.repository.BookDepository;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,5 +31,11 @@ public class BookServiceImpl implements BookService {
       throw new BookNotFoundException("Book with id " + id + " not found");
     }
     return BookMapper.mapToBookDto(foundBook.get());
+  }
+
+  @Override
+  public List<BookDto> getBooks() {
+    List<Book> books = bookDepository.findAll();
+    return books.stream().map((bk) -> BookMapper.mapToBookDto(bk)).collect(Collectors.toList());
   }
 }

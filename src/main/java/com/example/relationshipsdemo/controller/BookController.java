@@ -3,6 +3,7 @@ package com.example.relationshipsdemo.controller;
 import com.example.relationshipsdemo.dto.BookDto;
 import com.example.relationshipsdemo.exception.BookNotFoundException;
 import com.example.relationshipsdemo.service.BookService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,6 +37,12 @@ public class BookController {
     } catch (BookNotFoundException ex) {
       throw ex;
     }
+  }
+
+  @GetMapping(value = "/")
+  public ResponseEntity<List<BookDto>> getBooks() {
+    List<BookDto> books = bookService.getBooks();
+    return new ResponseEntity<>(books, HttpStatus.OK);
   }
 
 }
