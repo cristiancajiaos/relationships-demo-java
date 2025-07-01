@@ -19,7 +19,7 @@ public class Book {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
-  private int bookId;
+  private Long bookId;
 
   @Column(name = "book_name")
   private String bookName;
@@ -39,7 +39,7 @@ public class Book {
   public Book() {
   }
 
-  public Book(int bookId, String bookName, Story story, Timestamp created, Timestamp updated) {
+  public Book(Long bookId, String bookName, Story story, Timestamp created, Timestamp updated) {
     this.bookId = bookId;
     this.bookName = bookName;
     this.story = story;
@@ -47,11 +47,11 @@ public class Book {
     this.updated = updated;
   }
 
-  public int getBookId() {
+  public Long getBookId() {
     return bookId;
   }
 
-  public void setBookId(int bookId) {
+  public void setBookId(Long bookId) {
     this.bookId = bookId;
   }
 

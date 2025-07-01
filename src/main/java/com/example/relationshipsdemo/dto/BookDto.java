@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 
 public class BookDto {
 
-  private int bookId;
+  private Long bookId;
   private String bookName;
   private Story story;
   private Timestamp created;
@@ -14,7 +14,7 @@ public class BookDto {
   public BookDto() {
   }
 
-  public BookDto(int bookId, String bookName, Story story, Timestamp created,
+  public BookDto(Long bookId, String bookName, Story story, Timestamp created,
       Timestamp updated) {
     this.bookId = bookId;
     this.bookName = bookName;
@@ -23,11 +23,11 @@ public class BookDto {
     this.updated = updated;
   }
 
-  public int getBookId() {
+  public Long getBookId() {
     return bookId;
   }
 
-  public void setBookId(int bookId) {
+  public void setBookId(Long bookId) {
     this.bookId = bookId;
   }
 
